@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /home/hatch/workspace/lab7-fuzz/.venv/bin/python
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/hatch/workspace/lab7-fuzz/work
+plugins: hypothesis-6.170.15
+collecting ... collected 21 items
+
+test_pizza_order.py::test_toppings_price_no_crash PASSED                 [  4%]
+test_pizza_order.py::test_pizza_inches_no_crash PASSED                   [  9%]
+test_pizza_order.py::test_split_bill_no_crash PASSED                     [ 14%]
+test_pizza_order.py::test_toppings_price_csv_lists PASSED                [ 19%]
+test_pizza_order.py::test_pizza_inches_short_text PASSED                 [ 23%]
+test_pizza_order.py::test_split_bill_structured PASSED                   [ 28%]
+test_pizza_order.py::test_split_bill_any_text PASSED                     [ 33%]
+test_pizza_order.py::test_toppings_price_valid_examples PASSED           [ 38%]
+test_pizza_order.py::test_toppings_price_invalid_returns_zero PASSED     [ 42%]
+test_pizza_order.py::test_pizza_inches_valid_examples PASSED             [ 47%]
+test_pizza_order.py::test_pizza_inches_invalid_returns_zero PASSED       [ 52%]
+test_pizza_order.py::test_split_bill_valid_examples PASSED               [ 57%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[] PASSED       [ 61%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900] PASSED    [ 66%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/0] PASSED  [ 71%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/three] PASSED [ 76%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900.5/3] PASSED [ 80%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/3/1] PASSED [ 85%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[None] PASSED   [ 90%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/-3] PASSED [ 95%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[-100/2] PASSED [100%]
+
+============================== 21 passed in 0.90s ==============================

@@ -1,0 +1,476 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- /home/hatch/workspace/lab7-fuzz/.venv/bin/python
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/hatch/workspace/lab7-fuzz/work
+plugins: hypothesis-6.170.15
+collecting ... collected 21 items
+
+test_pizza_order.py::test_toppings_price_no_crash FAILED                 [  4%]
+test_pizza_order.py::test_pizza_inches_no_crash FAILED                   [  9%]
+test_pizza_order.py::test_split_bill_no_crash FAILED                     [ 14%]
+test_pizza_order.py::test_toppings_price_csv_lists FAILED                [ 19%]
+test_pizza_order.py::test_pizza_inches_short_text FAILED                 [ 23%]
+test_pizza_order.py::test_split_bill_structured FAILED                   [ 28%]
+test_pizza_order.py::test_split_bill_any_text FAILED                     [ 33%]
+test_pizza_order.py::test_toppings_price_valid_examples PASSED           [ 38%]
+test_pizza_order.py::test_toppings_price_invalid_returns_zero FAILED     [ 42%]
+test_pizza_order.py::test_pizza_inches_valid_examples PASSED             [ 47%]
+test_pizza_order.py::test_pizza_inches_invalid_returns_zero FAILED       [ 52%]
+test_pizza_order.py::test_split_bill_valid_examples PASSED               [ 57%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[] FAILED       [ 61%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900] FAILED    [ 66%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/0] FAILED  [ 71%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/three] FAILED [ 76%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900.5/3] FAILED [ 80%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/3/1] FAILED [ 85%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[None] FAILED   [ 90%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[900/-3] FAILED [ 95%]
+test_pizza_order.py::test_split_bill_invalid_returns_zero[-100/2] FAILED [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_toppings_price_no_crash _________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 30, in test_toppings_price_no_crash
+  |     @given(st.text() | st.none())
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 32, in test_toppings_price_no_crash
+    |     result = toppings_price(s)
+    |              ^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 7, in toppings_price
+    |     total += TOPPINGS[t.strip().lower()]
+    |              ~~~~~~~~^^^^^^^^^^^^^^^^^^^
+    | KeyError: ''
+    | Failing test case: test_toppings_price_no_crash(
+    |     s='',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 32, in test_toppings_price_no_crash
+    |     result = toppings_price(s)
+    |              ^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 6, in toppings_price
+    |     for t in toppings_csv.split(','):
+    |              ^^^^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | Failing test case: test_toppings_price_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+__________________________ test_pizza_inches_no_crash __________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 38, in test_pizza_inches_no_crash
+  |     @given(st.text() | st.none())
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 40, in test_pizza_inches_no_crash
+    |     result = pizza_inches(s)
+    |              ^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 11, in pizza_inches
+    |     return SIZES[size.strip().upper()]
+    |            ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+    | KeyError: ''
+    | Failing test case: test_pizza_inches_no_crash(
+    |     s='',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 40, in test_pizza_inches_no_crash
+    |     result = pizza_inches(s)
+    |              ^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 11, in pizza_inches
+    |     return SIZES[size.strip().upper()]
+    |                  ^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'strip'
+    | Failing test case: test_pizza_inches_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+___________________________ test_split_bill_no_crash ___________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 45, in test_split_bill_no_crash
+  |     @given(st.text() | st.none())
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 47, in test_split_bill_no_crash
+    |     result = split_bill(s)
+    |              ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 15, in split_bill
+    |     return round(int(total) / int(people), 2)
+    |                  ^^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | Failing test case: test_split_bill_no_crash(
+    |     s='/',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 47, in test_split_bill_no_crash
+    |     result = split_bill(s)
+    |              ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 14, in split_bill
+    |     total, people = text.split('/')
+    |     ^^^^^^^^^^^^^
+    | ValueError: not enough values to unpack (expected 2, got 1)
+    | Failing test case: test_split_bill_no_crash(
+    |     s='',  # or any other generated value
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 47, in test_split_bill_no_crash
+    |     result = split_bill(s)
+    |              ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 14, in split_bill
+    |     total, people = text.split('/')
+    |                     ^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | Failing test case: test_split_bill_no_crash(
+    |     s=None,  # or any other generated value
+    | )
+    +------------------------------------
+________________________ test_toppings_price_csv_lists _________________________
+
+    @settings(max_examples=100, deadline=None)
+>   @given(st.lists(st.text(min_size=1, max_size=8), min_size=0, max_size=6))
+                   ^^^
+
+test_pizza_order.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_pizza_order.py:62: in test_toppings_price_csv_lists
+    result = toppings_price(csv_text)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+toppings_csv = ''
+
+    def toppings_price(toppings_csv):
+        total = 0
+        for t in toppings_csv.split(','):
+>           total += TOPPINGS[t.strip().lower()]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: ''
+E           Failing test case: test_toppings_price_csv_lists(
+E               tokens=[],  # or any other generated value
+E           )
+
+pizza_order.py:7: KeyError
+_________________________ test_pizza_inches_short_text _________________________
+
+    @settings(max_examples=100, deadline=None)
+>   @given(st.text(min_size=0, max_size=3))
+                   ^^^
+
+test_pizza_order.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_pizza_order.py:72: in test_pizza_inches_short_text
+    assert pizza_inches(s) in (0, 8, 10, 12)
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+size = ''
+
+    def pizza_inches(size):
+>       return SIZES[size.strip().upper()]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: ''
+E       Failing test case: test_pizza_inches_short_text(
+E           s='',
+E       )
+
+pizza_order.py:11: KeyError
+__________________________ test_split_bill_structured __________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 76, in test_split_bill_structured
+  |     @given(st.integers(min_value=-10000, max_value=10000),
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 86, in test_split_bill_structured
+    |     assert result == 0.0
+    | AssertionError: assert -1.0 == 0.0
+    | Failing test case: test_split_bill_structured(
+    |     total=1,
+    |     people=-1,
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 81, in test_split_bill_structured
+    |     result = split_bill(f"{total}/{people}")
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 15, in split_bill
+    |     return round(int(total) / int(people), 2)
+    |                  ~~~~~~~~~~~^~~~~~~~~~~~~
+    | ZeroDivisionError: division by zero
+    | Failing test case: test_split_bill_structured(
+    |     total=0,  # or any other generated value
+    |     people=0,
+    | )
+    +------------------------------------
+___________________________ test_split_bill_any_text ___________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 90, in test_split_bill_any_text
+  |     @given(st.text())
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 2 distinct failures. (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 92, in test_split_bill_any_text
+    |     assert isinstance(split_bill(s), float)
+    |                       ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 15, in split_bill
+    |     return round(int(total) / int(people), 2)
+    |                  ^^^^^^^^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | Failing test case: test_split_bill_any_text(
+    |     s='/',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/hatch/workspace/lab7-fuzz/work/test_pizza_order.py", line 92, in test_split_bill_any_text
+    |     assert isinstance(split_bill(s), float)
+    |                       ^^^^^^^^^^^^^
+    |   File "/home/hatch/workspace/lab7-fuzz/work/pizza_order.py", line 14, in split_bill
+    |     total, people = text.split('/')
+    |     ^^^^^^^^^^^^^
+    | ValueError: not enough values to unpack (expected 2, got 1)
+    | Failing test case: test_split_bill_any_text(
+    |     s='',  # or any other generated value
+    | )
+    +------------------------------------
+___________________ test_toppings_price_invalid_returns_zero ___________________
+
+    def test_toppings_price_invalid_returns_zero():
+>       assert toppings_price("") == 0
+               ^^^^^^^^^^^^^^^^^^
+
+test_pizza_order.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+toppings_csv = ''
+
+    def toppings_price(toppings_csv):
+        total = 0
+        for t in toppings_csv.split(','):
+>           total += TOPPINGS[t.strip().lower()]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: ''
+
+pizza_order.py:7: KeyError
+____________________ test_pizza_inches_invalid_returns_zero ____________________
+
+    def test_pizza_inches_invalid_returns_zero():
+>       assert pizza_inches("") == 0
+               ^^^^^^^^^^^^^^^^
+
+test_pizza_order.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+size = ''
+
+    def pizza_inches(size):
+>       return SIZES[size.strip().upper()]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: ''
+
+pizza_order.py:11: KeyError
+____________________ test_split_bill_invalid_returns_zero[] ____________________
+
+bad = ''
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = ''
+
+    def split_bill(text):
+>       total, people = text.split('/')
+        ^^^^^^^^^^^^^
+E       ValueError: not enough values to unpack (expected 2, got 1)
+
+pizza_order.py:14: ValueError
+__________________ test_split_bill_invalid_returns_zero[900] ___________________
+
+bad = '900'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = '900'
+
+    def split_bill(text):
+>       total, people = text.split('/')
+        ^^^^^^^^^^^^^
+E       ValueError: not enough values to unpack (expected 2, got 1)
+
+pizza_order.py:14: ValueError
+_________________ test_split_bill_invalid_returns_zero[900/0] __________________
+
+bad = '900/0'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = '900/0'
+
+    def split_bill(text):
+        total, people = text.split('/')
+>       return round(int(total) / int(people), 2)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+E       ZeroDivisionError: division by zero
+
+pizza_order.py:15: ZeroDivisionError
+_______________ test_split_bill_invalid_returns_zero[900/three] ________________
+
+bad = '900/three'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = '900/three'
+
+    def split_bill(text):
+        total, people = text.split('/')
+>       return round(int(total) / int(people), 2)
+                                  ^^^^^^^^^^^
+E       ValueError: invalid literal for int() with base 10: 'three'
+
+pizza_order.py:15: ValueError
+________________ test_split_bill_invalid_returns_zero[900.5/3] _________________
+
+bad = '900.5/3'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = '900.5/3'
+
+    def split_bill(text):
+        total, people = text.split('/')
+>       return round(int(total) / int(people), 2)
+                     ^^^^^^^^^^
+E       ValueError: invalid literal for int() with base 10: '900.5'
+
+pizza_order.py:15: ValueError
+________________ test_split_bill_invalid_returns_zero[900/3/1] _________________
+
+bad = '900/3/1'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = '900/3/1'
+
+    def split_bill(text):
+>       total, people = text.split('/')
+        ^^^^^^^^^^^^^
+E       ValueError: too many values to unpack (expected 2)
+
+pizza_order.py:14: ValueError
+__________________ test_split_bill_invalid_returns_zero[None] __________________
+
+bad = None
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+               ^^^^^^^^^^^^^^^
+
+test_pizza_order.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = None
+
+    def split_bill(text):
+>       total, people = text.split('/')
+                        ^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'split'
+
+pizza_order.py:14: AttributeError
+_________________ test_split_bill_invalid_returns_zero[900/-3] _________________
+
+bad = '900/-3'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+E       AssertionError: assert -300.0 == 0.0
+E        +  where -300.0 = split_bill('900/-3')
+
+test_pizza_order.py:136: AssertionError
+_________________ test_split_bill_invalid_returns_zero[-100/2] _________________
+
+bad = '-100/2'
+
+    @pytest.mark.parametrize("bad", ["", "900", "900/0", "900/three", "900.5/3",
+                                     "900/3/1", None, "900/-3", "-100/2"])
+    def test_split_bill_invalid_returns_zero(bad):
+>       assert split_bill(bad) == 0.0
+E       AssertionError: assert -50.0 == 0.0
+E        +  where -50.0 = split_bill('-100/2')
+
+test_pizza_order.py:136: AssertionError
+=========================== short test summary info ============================
+FAILED test_pizza_order.py::test_toppings_price_no_crash - ExceptionGroup: Hy...
+FAILED test_pizza_order.py::test_pizza_inches_no_crash - ExceptionGroup: Hypo...
+FAILED test_pizza_order.py::test_split_bill_no_crash - ExceptionGroup: Hypoth...
+FAILED test_pizza_order.py::test_toppings_price_csv_lists - KeyError: ''
+FAILED test_pizza_order.py::test_pizza_inches_short_text - KeyError: ''
+FAILED test_pizza_order.py::test_split_bill_structured - ExceptionGroup: Hypo...
+FAILED test_pizza_order.py::test_split_bill_any_text - ExceptionGroup: Hypoth...
+FAILED test_pizza_order.py::test_toppings_price_invalid_returns_zero - KeyErr...
+FAILED test_pizza_order.py::test_pizza_inches_invalid_returns_zero - KeyError...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[] - ValueErr...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900] - Value...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900/0] - Zer...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900/three]
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900.5/3] - V...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900/3/1] - V...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[None] - Attr...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[900/-3] - As...
+FAILED test_pizza_order.py::test_split_bill_invalid_returns_zero[-100/2] - As...
+========================= 18 failed, 3 passed in 6.44s =========================
